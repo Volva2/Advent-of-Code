@@ -4479,5 +4479,4 @@ for delta in instructions:
 
     pointer = (pointer + delta) % 100
 
-
 print("\n", answer)
