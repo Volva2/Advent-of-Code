@@ -4445,30 +4445,39 @@ L44
 L11"""
 pointer: int = 50
 answer: int = 0
-dial = list(map(int, input.replace('R', '').replace('L', '-').split()))
 
+# Part One
 for i in input.split('\n'):
     i = list(i)
-    # print(i)
+    delta = int("".join(i[1:]))
+
     if(i[0] == "L"):
-        pointer = (pointer - int("".join(i[1:])))%100
-        # print(int("".join(i[1:])))
+        pointer = (pointer - delta)%100
     else:
-        pointer = (pointer +int("".join(i[1:])))%100
-    
-    while(pointer > 99 or pointer < 0):
-        if(pointer > 99):
-            # print(pointer)
-            pointer_over = pointer-99
-            pointer = 0 + pointer_over
-            # print(pointer, "\n\n")
-        elif(pointer < 0):
-            print(pointer)
-            pointer_under = pointer
-            pointer = 99+pointer_under
-            print(pointer, "\n\n")
-    
+        pointer = (pointer + delta)%100
+
     if(pointer==0):
         answer+=1
+
+print("\n", answer)
+
+pointer = 50
+answer = 0
+instructions = [int(delta.strip().replace("R", "").replace("L", "-")) for delta in input.split("\n")]
+# Part Two
+for delta in instructions:
+    if delta < 0:
+        div, mod = divmod(delta, -100)
+        answer+=div
+        if pointer != 0 and pointer + mod <= 0:
+            answer+=1
+    else:
+        div, mod = divmod(delta, 100)
+        answer+=div
+        if pointer + mod >= 100:
+            answer+=1
+
+    pointer = (pointer + delta) % 100
+
 
 print("\n", answer)
